@@ -1,0 +1,49 @@
+name: Build and Verify on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin' # See 'Supported distributions' for available options
+        java-version: '11'
+
+    - name: Build Android APK
+      run: |
+        cd android
+        chmod +x ./gradlew
+        ./gradlew assembleDebug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-debug.apk
+        path: android/app/build/outputs/apk/debug/app-debug.apk
+
+  build-ios:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        cd ios
+        pod install
+
+    - name: Build iOS app
+      run: |
+        flutter build ios --release --no-codesign
+
+    - name: Upload iOS build
+      uses: actions/upload-artifact@v2
+      with:
+        name: iOS-release-build
+        path: build/ios/iphoneos/*.app
