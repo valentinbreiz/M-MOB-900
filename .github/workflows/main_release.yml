@@ -40,4 +40,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: release-ipa
-          path: build/ios/iphoneos/*.ipa
+          path: build/ios/iphoneos/Runner.app
