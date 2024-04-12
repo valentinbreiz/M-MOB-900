@@ -41,3 +41,13 @@ jobs:
         with:
           name: release-ipa
           path: build/ios/iphoneos/Runner.app
+      - name: Create IPA
+        run: |
+          xcodebuild -exportArchive -archivePath $PWD/build/ios/iphoneos/Runner.xcarchive \
+            -exportOptionsPlist exportOptions.plist \
+            -exportPath $PWD/build/ios/iphoneos \
+            -allowProvisioningUpdates
+      - uses: actions/upload-artifact@v2
+        with:
+          name: release-ipa
+          path: build/ios/iphoneos/Runner.ipa
