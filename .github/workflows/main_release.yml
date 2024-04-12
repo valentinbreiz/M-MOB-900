@@ -56,7 +56,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/ios/iphoneos/app-release.ipa
+          file: build/ios/iphoneos/app-debug.ipa
           tag: release-${{ env.SHORT_SHA }}
           overwrite: true
           body: "Release version ${{ env.SHORT_SHA }}"
