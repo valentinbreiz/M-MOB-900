@@ -43,7 +43,7 @@ jobs:
           channel: 'beta'
       - run: flutter pub get
       - run: flutter analyze .
-      - run: flutter build ios --release --no-codesign
+      - run: flutter build ios --debug --no-codesign
       - run: mkdir Payload
         working-directory: build/ios/iphoneos
       - run: mv Runner.app/ Payload
