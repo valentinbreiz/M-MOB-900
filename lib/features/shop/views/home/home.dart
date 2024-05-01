@@ -42,11 +42,27 @@ class Home extends StatelessWidget {
       clipper: RoundTopCorner(),
       child: Container(
         color: Colors.yellow,
-        padding: const EdgeInsets.all(0),
+        padding: EdgeInsets.zero,
         child: SizedBox(
           height: Get.context!.height / 3,
           width: Get.context!.width,
-          child: const Text("Top"),
+          child: Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Get.toNamed('/login');
+                },
+                child: const Text("login"),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await homeController.signOut();
+                  Get.toNamed('/login');
+                },
+                child: const Text("signout"),
+              ),
+            ],
+          ),
         ),
       ),
     );

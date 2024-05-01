@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../utils/screen_size.dart';
 import '../controllers/register.dart';
@@ -34,64 +35,78 @@ class Register extends StatelessWidget {
     double verticalPadding = calcVerticalPadding();
 
     return Scaffold(
-        body: SingleChildScrollView(
-            child: SafeArea(
-                child: SizedBox(
-                    width: double.infinity,
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: horizontalPadding),
-                      child: Column(children: <Widget>[
-                        const SizedBox(height: 100),
-                        const Text(
-                          'Register',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: verticalPadding),
-                        const MyFormField(title: 'Email'),
-                        SizedBox(height: verticalPadding),
-                        const MyFormField(
-                          title: 'Password',
-                          sufIcon: Icons.remove_red_eye,
-                          // Icons.visibility_off,
-                        ),
-                        SizedBox(height: verticalPadding),
-                        const MyFormField(
-                          title: 'Confirm password',
-                          sufIcon: Icons.remove_red_eye,
-                          // Icons.visibility_off,
-                        ),
-                        SizedBox(height: verticalPadding),
-                        SizedBox(
-                          width: Get.width > ScreenSize.normal.size
-                              ? Get.width / 2
-                              : Get.width / 4,
-                          height: 40,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              controller.register();
-                              Get.toNamed('/home');
-                            },
-                            child: const Text('Register'),
-                          ),
-                        ),
-                        SizedBox(height: verticalPadding),
-                        SizedBox(
-                          width: Get.width > ScreenSize.normal.size
-                              ? Get.width / 2
-                              : Get.width / 4,
-                          height: 40,
-                          child: OutlinedButton(
-                            onPressed: () {
-                              Get.toNamed('/login');
-                            },
-                            child: const Text('Log in'),
-                          ),
-                        ),
-                      ]),
-                    )))));
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: Column(
+                children: <Widget>[
+                  Obx(
+                    () => Text(controller.error.value == ''
+                        ? ''
+                        : controller.error.value),
+                  ),
+                  const SizedBox(height: 100),
+                  const Text(
+                    'Register',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: verticalPadding),
+                  MyFormField(
+                      title: 'Email', controller: controller.emailController),
+                  SizedBox(height: verticalPadding),
+                  MyFormField(
+                    title: 'Password',
+                    sufIcon: Icons.remove_red_eye,
+                    // Icons.visibility_off,
+                    controller: controller.passwordController,
+                  ),
+                  SizedBox(height: verticalPadding),
+                  MyFormField(
+                    title: 'Confirm password',
+                    sufIcon: Icons.remove_red_eye,
+                    // Icons.visibility_off,
+                    controller: controller.confirmPasswordController,
+                  ),
+                  SizedBox(height: verticalPadding),
+                  SizedBox(
+                    width: Get.width > ScreenSize.normal.size
+                        ? Get.width / 2
+                        : Get.width / 4,
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (await controller.register()) {
+                          Get.toNamed('/home');
+                        }
+                      },
+                      child: const Text('Register'),
+                    ),
+                  ),
+                  SizedBox(height: verticalPadding),
+                  SizedBox(
+                    width: Get.width > ScreenSize.normal.size
+                        ? Get.width / 2
+                        : Get.width / 4,
+                    height: 40,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Get.toNamed('/login');
+                      },
+                      child: const Text('Log in'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

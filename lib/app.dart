@@ -1,9 +1,8 @@
+import 'package:epitech/features/auth/views/login.dart';
+import 'package:epitech/features/auth/views/register.dart';
+import 'package:epitech/features/shop/views/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'features/auth/views/login.dart';
-import 'features/auth/views/register.dart';
-import 'features/shop/views/home/home.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -12,7 +11,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'EpiShop',
-        theme: null,
         home: Home(),
         initialRoute: '/home',
         getPages: [
