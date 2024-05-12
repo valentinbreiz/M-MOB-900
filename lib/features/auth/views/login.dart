@@ -1,9 +1,9 @@
+import 'package:epitech/common/widgets/body_text.dart';
+import 'package:epitech/features/auth/controllers/login_controller.dart';
+import 'package:epitech/features/auth/views/form_field.dart';
+import 'package:epitech/utils/screen_size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../utils/screen_size.dart';
-import '../controllers/login.dart';
-import 'form_field.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -39,62 +39,77 @@ class Login extends StatelessWidget {
             width: double.infinity,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-              child: Column(
-                children: <Widget>[
-                  const SizedBox(height: 100),
-                  const Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+              child: Obx(
+                () => Column(
+                  children: <Widget>[
+                    const SizedBox(height: 100),
+                    if (controller.error.value.isNotEmpty)
+                      BodyText(text: controller.error.value, color: Colors.red),
+                    const Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: verticalPadding),
-                  MyFormField(
-                    title: 'Email',
-                    controller: controller.emailController,
-                  ),
-                  SizedBox(height: verticalPadding),
-                  MyFormField(
-                    title: 'Password',
-                    sufIcon: Icons.remove_red_eye,
-                    // Icons.visibility_off,
-                    controller: controller.passwordController,
-                  ),
-                  SizedBox(height: verticalPadding),
-                  const Align(
-                    alignment: Alignment.centerRight,
-                    child: Text('Forgot password?'),
-                  ),
-                  SizedBox(height: verticalPadding),
-                  SizedBox(
-                    width: Get.width > ScreenSize.normal.size
-                        ? Get.width / 2
-                        : Get.width / 4,
-                    height: 40,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        if (await controller.login()) {
-                          Get.toNamed('/home');
-                        }
-                      },
-                      child: const Text('Login'),
+                    SizedBox(height: verticalPadding),
+                    MyFormField(
+                      title: 'Email',
+                      controller: controller.emailController,
                     ),
-                  ),
-                  SizedBox(height: verticalPadding),
-                  SizedBox(
-                    width: Get.width > ScreenSize.normal.size
-                        ? Get.width / 2
-                        : Get.width / 4,
-                    height: 40,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Get.toNamed('/register');
-                      },
-                      child: const Text('Sign up'),
+                    SizedBox(height: verticalPadding),
+                    TextFormField(
+                      controller: controller.passwordController,
+                      obscureText: controller.hidePass.value,
+                      decoration: InputDecoration(
+                        suffixIcon: InkWell(
+                          onTap: () => controller.hidePass.value =
+                              !controller.hidePass.value,
+                          child: controller.hidePass.value
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off),
+                        ),
+                        labelText: 'Password',
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(height: verticalPadding),
+                    const Align(
+                      alignment: Alignment.centerRight,
+                      child: Text('Forgot password?'),
+                    ),
+                    SizedBox(height: verticalPadding),
+                    SizedBox(
+                      width: Get.width > ScreenSize.normal.size
+                          ? Get.width / 2
+                          : Get.width / 4,
+                      height: 40,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (await controller.login()) {
+                            Get.toNamed('/home');
+                          }
+                        },
+                        child: const Text('Login'),
+                      ),
+                    ),
+                    SizedBox(height: verticalPadding),
+                    SizedBox(
+                      width: Get.width > ScreenSize.normal.size
+                          ? Get.width / 2
+                          : Get.width / 4,
+                      height: 40,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Get.toNamed('/register');
+                        },
+                        child: const Text('Sign up'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

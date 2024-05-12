@@ -10,42 +10,23 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        title: 'EpiShop',
-        home: Home(),
-        initialRoute: '/home',
-        getPages: [
-          GetPage(
-            name: '/home',
-            page: () => Home(),
-          ),
-          GetPage(
-            name: '/login',
-            page: () => Login(),
-          ),
-          GetPage(
-            name: '/register',
-            page: () => Register(),
-          ),
-          // GetPage(
-          //   name: '/cart',
-          //   page: () => const Cart(),
-          // ),
-          // GetPage(
-          //   name: '/checkout',
-          //   page: () => const Checkout(),
-          // ),
-          // GetPage(
-          //   name: '/product',
-          //   page: () => const Product(),
-          // ),
-          // GetPage(
-          //   name: '/order',
-          //   page: () => const Order(),
-          // ),
-          // GetPage(
-          //   name: '/profile',
-          //   page: () => const Profile(),
-          // ),
-        ]);
+      title: 'EpiShop',
+      home: Home(),
+      initialRoute: '/login',
+      getPages: <GetPage>[
+        GetPage(
+          name: '/home',
+          page: Home.new,
+        ),
+        GetPage(
+          name: '/login',
+          page: Login.new,
+        ),
+        GetPage(
+          name: '/register',
+          page: Register.new,
+        ),
+      ],
+    );
   }
 }
